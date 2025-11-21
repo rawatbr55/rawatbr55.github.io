@@ -1,359 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Brajesh Rawat — Portfolio & File Manager</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brajesh Rawat - Portfolio</title>
 <style>
-:root{--bg:#f4f7fb;--card:#ffffff;--accent1:#00c6ff;--accent2:#0072ff;--muted:#6b7280}
-*{box-sizing:border-box}
-body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:#0b1220}
-.header{position:fixed;top:0;left:0;right:0;height:64px;background:linear-gradient(90deg,var(--accent2),#004aa3);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:50}
-.logo{font-weight:700;letter-spacing:1px}
-.nav{display:flex;gap:12px;align-items:center}
-.nav a{color:rgba(255,255,255,0.95);text-decoration:none;padding:8px 10px;border-radius:8px;transition:all .2s}
-.nav a:hover{background:rgba(255,255,255,0.06)}
-.mobile-btn{display:none;background:transparent;border:none;color:#fff;font-size:22px}
-.container{max-width:1100px;margin:100px auto 60px;padding:0 20px}
-/* HERO */
-.hero{background:linear-gradient(135deg,var(--accent1),var(--accent2));color:#fff;border-radius:14px;padding:48px;display:flex;gap:30px;align-items:center;position:relative;overflow:hidden}
-.hero .left{flex:1}
-.hero h1{font-size:36px;margin:0 0 12px;animation:fadeInUp .8s both}
-.hero p{margin:0 0 18px;opacity:.95}
-.hero .cta{display:flex;gap:10px}
-.btn{background:#fff;color:#0072ff;padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer}
-.btn.alt{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.25)}
-.profile-frame{width:220px;height:220px;border-radius:50%;padding:6px;background:linear-gradient(135deg,#ff9a9e,#fad0c4,#00c6ff,#0072ff);box-shadow:0 20px 60px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center}
-.profile-frame img{width:200px;height:200px;border-radius:50%;object-fit:cover;border:4px solid rgba(255,255,255,0.12)}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: Poppins, Arial, sans-serif;
+    background: #f4f4f4;
+    overflow-x: hidden;
+}
+section { display: none; padding: 80px 20px; }
+.active-section { display: block; }
 
-/* GRID FEATURES */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
-.card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 30px rgba(14,30,37,0.06)}
-.card h4{margin:0 0 8px}
+/* ===== HEADER ===== */
+header {
+    position: fixed;
+    top: 0; width: 100%;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 999;
+}
+header h2 { margin: 0; font-weight: 600; }
 
-/* SECTIONS */
-.section{background:var(--card);border-radius:12px;padding:20px;margin-top:18px;display:none}
-.section.active{display:block}
-.section h3{margin-top:0}
+nav a {
+    color: #fff;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+nav a:hover { color: #00e1ff; }
 
-/* AUTH / UPLOAD UI */
-.auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.input{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef6}
-.file-row{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;border:1px solid #eef2f7;margin-top:8px}
-.small{font-size:13px;color:var(--muted)}
-
-/* SIDEBAR/DASHBOARD (mobile collapsible) */
-.sidebar{display:none}
-@media(min-width:980px){
-  .sidebar{display:block;position:fixed;left:20px;top:90px;width:220px}
-  .container{margin-left:260px}
+/* ===== HERO SECTION ===== */
+#home {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    height: 100vh;
+    color: white;
+    background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url('bg-tech.jpg');
+    background-size: cover;
+    background-position: center;
+    animation: fadeIn 1.5s;
 }
 
-/* MOBILE */
-@media(max-width:979px){
-  .nav{display:none}
-  .mobile-btn{display:block}
-  .hero{flex-direction:column;align-items:center;text-align:center}
+.profile-box {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 20px;
+    width: 80%; max-width: 450px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    animation: slideUp 1.3s;
 }
 
-/* LOADER */
-#loader{position:fixed;inset:0;background:rgba(255,255,255,0.7);display:flex;align-items:center;justify-content:center;z-index:100}
-.loader-dot{width:14px;height:14px;border-radius:50%;background:var(--accent2);animation:bounce 1s infinite}
-.loader-dot:nth-child(2){animation-delay:.1s}
-.loader-dot:nth-child(3){animation-delay:.2s}
-@keyframes bounce{0%{transform:translateY(0)}50%{transform:translateY(-12px)}100%{transform:translateY(0)}}
+.profile-img {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    border: 4px solid #00e1ff;
+    object-fit: cover;
+    margin-bottom: 15px;
+    animation: zoomIn 1.5s;
+}
 
-/* FOOTER */
-.footer{max-width:1100px;margin:30px auto;padding:16px;text-align:center;color:var(--muted)}
+.hero-title {
+    font-size: 30px;
+    font-weight: 700;
+}
+.hero-subtitle {
+    margin-top: 5px;
+    font-size: 18px;
+    opacity: 0.9;
+}
 
-/* social icons */
-.social{display:flex;gap:10px}
-.social a{display:inline-block;padding:8px;border-radius:8px;background:rgba(0,0,0,0.05);text-decoration:none;color:#0b1220}
+/* Typing animation */
+.typing {
+    width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #00e1ff;
+    animation: typing 4s steps(30) infinite alternate;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+/* Animations */
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+@keyframes zoomIn { from {transform:scale(0.7);opacity:0;} to {transform:scale(1);opacity:1;} }
+@keyframes slideUp { from {transform:translateY(40px);opacity:0;} to {transform:translateY(0);opacity:1;} }
+
+/* ===== SECTIONS ===== */
+h2 { font-size: 32px; margin-bottom: 10px; }
+.container { padding: 15px; }
+
+/* ===== NOTES SECTION ===== */
+.notes-list a {
+    display: block;
+    margin: 10px 0;
+    padding: 12px;
+    background: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.notes-list a:hover {
+    background: #00e1ff;
+    color: white;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #000;
+    color: white;
+    margin-top: 40px;
+}
+/* Premium theme additions */
+:root {
+  --primary: #5b2cff;
+  --secondary: #00eaff;
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --blur: blur(12px);
+  --shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+.hero-container {
+  background: linear-gradient(135deg, rgba(91,44,255,0.85), rgba(0,234,255,0.85));
+  padding: 60px;
+  border-radius: 25px;
+  box-shadow: var(--shadow);
+  backdrop-filter: var(--blur);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #fff, #d7d7ff);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero-photo-wrapper {
+  box-shadow: var(--shadow);
+  border-radius: 50%;
+  padding: 8px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+button, .btn {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  padding: 12px 22px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: var(--shadow);
+}
+button:hover, .btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+}
+
+.icon {
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+/* Hide upload section */
+#uploadSection { display: none !important; }
+/* Premium theme additions */
+:root {
+  --primary: #5b2cff;
+  --secondary: #00eaff;
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --blur: blur(12px);
+  --shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+/* Floating Neon Background Shapes */
+.neon-shape {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, var(--secondary), transparent);
+  filter: blur(70px);
+  animation: float 9s infinite ease-in-out;
+  z-index: -1;
+}
+.neon-shape:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.neon-shape:nth-child(2) { top: 60%; left: 70%; animation-delay: 2s; }
+.neon-shape:nth-child(3) { top: 30%; left: 50%; animation-delay: 4s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-40px); }
+}
+
+/* PDF Modal Viewer */
+#pdfModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+#pdfViewer {
+  width: 80%;
+  height: 80%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+.closeModal {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: white;
+}
+
+/* Animated glowing borders */
+.glow-frame {
+  border: 3px solid transparent;
+  border-radius: 50%;
+  padding: 8px;
+  background: linear-gradient(45deg, var(--primary), var(--secondary)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+
+/* Scroll reveal */
+section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.8s ease;
+}
+section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hide upload section */
+#uploadSection { display: none !important; }
 </style>
 </head>
 <body>
-  <!-- Loader -->
-  <div id="loader" style="display:none"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div>
 
-  <header class="header">
-    <div class="logo">BRAJESH RAWAT</div>
-    <div>
-      <button class="mobile-btn" id="menuBtn">☰</button>
-      <nav class="nav" id="nav">
-        <a href="#" data-target="home">Home</a>
-        <a href="#" data-target="about">About</a>
-        <a href="#" data-target="features">Features</a>
-        <a href="#" data-target="notes">Notes</a>
-        <a href="#" data-target="upload">Upload</a>
-        <a href="#" data-target="dashboard">Dashboard</a>
-        <a href="#" data-target="contact">Contact</a>
-      </nav>
+<header>
+    <h2>Brajesh Rawat</h2>
+    <nav>
+        <a onclick="showSection('home')">Home</a>
+        <a onclick="showSection('about')">About</a>
+        <a onclick="showSection('projects')">Projects</a>
+        <a onclick="showSection('notes')">Notes</a>
+        <a onclick="showSection('contact')">Contact</a>
+    </nav>
+</header>
+
+<!-- ===== HOME ===== -->
+<section id="home" class="active-section">
+    <div class="profile-box">
+        <img src="your_photo.jpg" class="profile-img" />
+        <h1 class="hero-title typing">Welcome to My Professional Portfolio</h1>
+        <p class="hero-subtitle">Developer • Student • Tech Enthusiast</p>
     </div>
-  </header>
+</section>
 
-  <div class="container" id="app">
-    <!-- Sidebar (desktop) -->
-    <aside class="sidebar">
-      <div class="card">
-        <h4>Quick Links</h4>
-        <div class="small">Jump to:</div>
-        <div style="margin-top:8px"><a href="#" data-target="home">Home</a></div>
-        <div><a href="#" data-target="notes">Notes</a></div>
-        <div><a href="#" data-target="upload">Upload</a></div>
-      </div>
-      <div style="height:12px"></div>
-      <div class="card">
-        <h4>Social</h4>
-        <div class="social" style="margin-top:8px">
-          <a href="#" title="Website">🌐</a>
-          <a href="#" title="Facebook">📘</a>
-          <a href="#" title="Instagram">📸</a>
-          <a href="#" title="Twitter">🐦</a>
-        </div>
-      </div>
-    </aside>
+<!-- ===== ABOUT ===== -->
+<section id="about">
+    <h2>About Me</h2>
+    <p>Hi, I am Brajesh Rawat, passionate about technology, coding and learning new skills.</p>
+</section>
 
-    <!-- HERO -->
-    <section id="home" class="hero section active">
-      <div class="left">
-        <h1>Welcome to <strong>Brajesh Rawat</strong></h1>
-        <p>A learning hub for notes, projects and Python code. Login to upload files or manage your uploads.</p>
-        <div style="margin-top:18px" class="cta">
-          <button class="btn" data-target="upload">Upload Files</button>
-          <button class="btn alt" data-target="notes">View Notes</button>
-        </div>
-        <div class="grid" style="margin-top:24px">
-          <div class="card"><h4>📘 Notes</h4><div class="small">Class notes & syllabus</div></div>
-          <div class="card"><h4>🧑‍💻 Projects</h4><div class="small">Python & WebDev</div></div>
-          <div class="card"><h4>☁️ Cloud Uploads</h4><div class="small">Secure Firebase Storage</div></div>
-          <div class="card"><h4>📊 Dashboard</h4><div class="small">Manage your files</div></div>
-        </div>
-      </div>
-      <div class="profile-frame">
-        <img src="your_photo.jpg" alt="Profile">
-      </div>
-    </section>
+<!-- ===== PROJECTS ===== -->
+<section id="projects">
+    <h2>Projects</h2>
+    <p>Projects will appear here.</p>
+</section>
 
-    <!-- About -->
-    <section id="about" class="section">
-      <h3>About Me</h3>
-      <p>I am a student and developer. This portal hosts notes, projects, and practical Python code. Use the Upload area to save your PDFs and images securely.</p>
-    </section>
+<!-- ===== NOTES WITH PDFs ===== -->
+<section id="notes">
+    <h2>Notes & Study Material</h2>
+    <div class="notes-list">
+        <a href="Computer_Science_Syllabius.pdf" target="_blank">Computer Science Syllabus (PDF)</a>
+        <a href="your_uploaded_file.pdf" target="_blank">Additional Uploaded PDF</a>
+    </div>
+</section>
 
-    <!-- Features -->
-    <section id="features" class="section">
-      <h3>Features</h3>
-      <div class="grid">
-        <div class="card"><h4>Responsive</h4><div class="small">Works across devices</div></div>
-        <div class="card"><h4>Animated UI</h4><div class="small">Smooth transitions and hero animation</div></div>
-        <div class="card"><h4>Admin Controls</h4><div class="small">Upload / Delete files</div></div>
-        <div class="card"><h4>Preview Files</h4><div class="small">Open PDFs and images</div></div>
-      </div>
-    </section>
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+    <h2>Contact</h2>
+    <p>Email: brajeshrawat@example.com</p>
+</section>
 
-    <!-- Notes (include two uploaded PDFs) -->
-    <section id="notes" class="section">
-      <h3>Notes & PDFs</h3>
-      <p>Below are PDFs already available:</p>
-      <ul>
-        <li><a href="Computer_Science_Syllabius.pdf" target="_blank">Computer_Science_Syllabius.pdf</a></li>
-        <li><a href="your_uploaded_file.pdf" target="_blank">your_uploaded_file.pdf</a></li>
-      </ul>
-      <div id="dynamicNotes"></div>
-    </section>
+<footer>© 2025 Brajesh Rawat</footer>
 
-    <!-- Upload (auth required) -->
-    <section id="upload" class="section">
-      <h3>Upload Files (PDF / Image)</h3>
-      <div id="authArea" style="max-width:820px">
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <input id="email" class="input" placeholder="Email" />
-          <input id="password" class="input" type="password" placeholder="Password" />
-          <button id="btnLogin" class="btn">Login</button>
-          <button id="btnSignup" class="btn" style="background:#10b981">Sign Up</button>
-          <button id="btnLogout" class="btn" style="display:none;background:#ef4444">Logout</button>
-        </div>
-        <div id="authMsg" class="small" style="margin-top:8px"></div>
+<script>
+function showSection(id) {
+    document.querySelectorAll('section').forEach(sec => sec.classList.remove('active-section'));
+    document.getElementById(id).classList.add('active-section');
+}
+</script>
 
-        <div id="uploader" style="margin-top:18px;display:none">
-          <input id="fileInput" type="file" accept=".pdf,image/*" />
-          <button id="btnUpload" class="btn" style="margin-left:8px">Upload</button>
-          <div id="uploadProgress" class="small" style="margin-top:8px"></div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Dashboard (list user's files) -->
-    <section id="dashboard" class="section">
-      <h3>My Files</h3>
-      <div id="fileList"></div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="section">
-      <h3>Contact</h3>
-      <p>Email: your-email@example.com</p>
-    </section>
-
-  </div>
-
-  <div class="footer">© 2025 Brajesh Rawat — Built with ❤️</div>
-
-  <!-- Firebase (modular) -->
-  <script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js';
-  import { getStorage, ref, uploadBytesResumable, listAll, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js';
-
-  // YOUR firebaseConfig (you already provided earlier)
-  const firebaseConfig = {
-    apiKey: "AIzaSyA19S8vGKObxrORhez_uFYLoKk2I3fQM1s",
-    authDomain: "brajesh-b9592.firebaseapp.com",
-    projectId: "brajesh-b9592",
-    storageBucket: "brajesh-b9592.firebasestorage.app",
-    messagingSenderId: "117767040406",
-    appId: "1:117767040406:web:d8567f457faea16985c1b7",
-    measurementId: "G-XMXF8RBKP7"
-  };
-
-  // init
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const storage = getStorage(app);
-
-  // helper: show/hide loader
-  const loader = document.getElementById('loader');
-  function showLoader(){loader.style.display='flex'}
-  function hideLoader(){loader.style.display='none'}
-
-  // navigation: show/hide sections
-  const links = document.querySelectorAll('[data-target]');
-  links.forEach(l=> l.addEventListener('click', e=>{
-    const tgt = e.currentTarget.getAttribute('data-target');
-    showSection(tgt);
-  }));
-  function showSection(id){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    const el = document.getElementById(id);
-    if(el) el.classList.add('active');
-    // scroll into view
-    el && el.scrollIntoView({behavior:'smooth',block:'start'});
-  }
-
-  // mobile menu
-  const menuBtn = document.getElementById('menuBtn');
-  const nav = document.getElementById('nav');
-  menuBtn && menuBtn.addEventListener('click', ()=> nav.classList.toggle('open'));
-
-  // Auth UI
-  const emailEl = document.getElementById('email');
-  const pwdEl = document.getElementById('password');
-  const btnLogin = document.getElementById('btnLogin');
-  const btnSignup = document.getElementById('btnSignup');
-  const btnLogout = document.getElementById('btnLogout');
-  const authMsg = document.getElementById('authMsg');
-  const uploaderEl = document.getElementById('uploader');
-
-  function showMsg(msg, color=''){
-    authMsg.textContent = msg; authMsg.style.color = color;
-    setTimeout(()=>{ if(authMsg.textContent === msg) authMsg.textContent = '' },5000);
-  }
-
-  btnSignup.addEventListener('click', async ()=>{
-    const email = emailEl.value.trim(); const pass = pwdEl.value;
-    if(!email||!pass) return showMsg('Enter email and password','red');
-    try{ showLoader(); await createUserWithEmailAndPassword(auth,email,pass); hideLoader(); showMsg('Account created','green'); }
-    catch(e){ hideLoader(); showMsg(e.message,'red') }
+<script>
+// Scroll reveal animations
+const sections = document.querySelectorAll('section');
+const reveal = () => {
+  sections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100){ sec.classList.add('show'); }
   });
+};
+window.addEventListener('scroll', reveal);
 
-  btnLogin.addEventListener('click', async ()=>{
-    const email = emailEl.value.trim(); const pass = pwdEl.value;
-    if(!email||!pass) return showMsg('Enter email and password','red');
-    try{ showLoader(); await signInWithEmailAndPassword(auth,email,pass); hideLoader(); showMsg('Logged in','green'); }
-    catch(e){ hideLoader(); showMsg(e.message,'red') }
+// 3D Project Card Tilt
+const cards = document.querySelectorAll('.project-card');
+cards.forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+    let centerX = rect.width / 2;
+    let centerY = rect.height / 2;
+    let rotateX = ((y - centerY) / 20) * -1;
+    let rotateY = (x - centerX) / 20;
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   });
-
-  btnLogout.addEventListener('click', async ()=>{ await signOut(auth); showMsg('Logged out','green'); });
-
-  // on auth change
-  onAuthStateChanged(auth, user=>{
-    if(user){
-      uploaderEl.style.display='block';
-      btnLogout.style.display='inline-block';
-      btnLogin.style.display='none'; btnSignup.style.display='none';
-      // show dashboard by default when logged in
-      showSection('dashboard');
-      loadUserFiles();
-    } else {
-      uploaderEl.style.display='none';
-      btnLogout.style.display='none';
-      btnLogin.style.display='inline-block'; btnSignup.style.display='inline-block';
-    }
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = "rotateX(0) rotateY(0)";
   });
+});
+</script>
 
-  // upload file
-  const fileInput = document.getElementById('fileInput');
-  const btnUpload = document.getElementById('btnUpload');
-  const uploadProgress = document.getElementById('uploadProgress');
+<!-- Neon Background Shapes -->
+<div class="neon-shape"></div>
+<div class="neon-shape"></div>
+<div class="neon-shape"></div>
 
-  btnUpload.addEventListener('click', ()=>{
-    const file = fileInput.files[0];
-    if(!file) return showMsg('Select a file to upload','red');
-    const user = auth.currentUser; if(!user) return showMsg('Login first','red');
-    const path = `uploads/${user.uid}/${Date.now()}_${file.name}`;
-    const storageRef = ref(storage, path);
-    const task = uploadBytesResumable(storageRef, file);
-    showLoader();
-    task.on('state_changed', snapshot=>{
-      const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) *100);
-      uploadProgress.textContent = `Uploading ${pct}%`;
-    }, err=>{ hideLoader(); showMsg(err.message,'red') }, ()=>{
-      hideLoader(); uploadProgress.textContent = 'Upload complete'; loadUserFiles();
-    });
+<!-- PDF Viewer Modal -->
+<div id="pdfModal">
+  <span class="closeModal" onclick="closePDF()">×</span>
+  <iframe id="pdfViewer"></iframe>
+</div>
+
+<script>
+// Scroll reveal animations
+const sections = document.querySelectorAll('section');
+const reveal = () => {
+  sections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100){ sec.classList.add('show'); }
   });
+};
+window.addEventListener('scroll', reveal);
+reveal();
 
-  // load files for current user
-  async function loadUserFiles(){
-    const user = auth.currentUser; if(!user) return;
-    const listRef = ref(storage, `uploads/${user.uid}`);
-    const fileListDiv = document.getElementById('fileList');
-    fileListDiv.innerHTML = 'Loading...';
-    try{
-      const res = await listAll(listRef);
-      if(!res.items.length) { fileListDiv.innerHTML = '<div class="small">No uploads yet</div>'; return; }
-      fileListDiv.innerHTML = '';
-      for(const itemRef of res.items){
-        const url = await getDownloadURL(itemRef);
-        const name = itemRef.name.split('_').slice(1).join('_');
-        const row = document.createElement('div'); row.className='file-row';
-        row.innerHTML = `<div><a href="${url}" target="_blank">${name}</a></div>`;
-        const actions = document.createElement('div');
-        const del = document.createElement('button'); del.textContent='Delete'; del.style.marginLeft='10px';
-        del.onclick = async ()=>{
-          if(!confirm('Delete this file?')) return;
-          try{ await deleteObject(itemRef); loadUserFiles(); } catch(e){ alert('Delete failed: '+e.message) }
-        };
-        actions.appendChild(del); row.appendChild(actions); fileListDiv.appendChild(row);
-      }
-    }catch(e){ fileListDiv.innerHTML = '<div class="small">No files or permission issue</div>'; }
-  }
-
-  // load public notes (static PDF files) into dynamicNotes area as well
-  (function loadStaticNotes(){
-    const dyn = document.getElementById('dynamicNotes');
-    dyn.innerHTML = '<h4>Additional Notes</h4><ul>'+
-      '<li><a href="Computer_Science_Syllabius.pdf" target="_blank">Computer_Science_Syllabius.pdf</a></li>'+
-      '<li><a href="your_uploaded_file.pdf" target="_blank">your_uploaded_file.pdf</a></li>'+
-      '</ul>';
-  })();
-
-  // initial view: show home
-  document.addEventListener('DOMContentLoaded', ()=>{
-    showSection('home');
+// 3D Project Card Tilt
+const cards = document.querySelectorAll('.project-card');
+cards.forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+    let centerX = rect.width / 2;
+    let centerY = rect.height / 2;
+    let rotateX = ((y - centerY) / 20) * -1;
+    let rotateY = (x - centerX) / 20;
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = "rotateX(0) rotateY(0)";
+  });
+});
 
-  </script>
+// PDF Modal Viewer
+function openPDF(pdfFile){
+  document.getElementById('pdfViewer').src = pdfFile;
+  document.getElementById('pdfModal').style.display = 'flex';
+}
+function closePDF(){
+  document.getElementById('pdfModal').style.display = 'none';
+  document.getElementById('pdfViewer').src = '';
+}
+</script>
 </body>
 </html>
