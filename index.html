@@ -110,6 +110,7 @@ footer {
     background:#000; color:#fff;
     padding:20px; text-align:center;
 }
+section{display:none;}
 </style>
 </head>
 <body>
@@ -133,7 +134,7 @@ footer {
     
     
     </div>
-    <div class="counter">Visitors: <span id="count">0</span></div>
+    
 </section>
 <section id="about"><h2>About Me</h2></section>
 <section id="projects"><h2>Projects</h2></section>
@@ -149,10 +150,25 @@ footer {
 <section id="contact"><h2>Contact</h2></section>
 <footer>© 2025 Brajesh Rawat</footer>
 <script>
-function toggleMenu(){ document.getElementById('navMenu').classList.toggle('show'); }
-function toggleDarkMode(){ document.body.classList.toggle('dark-mode'); }
-let v = localStorage.getItem('visits') || 0; v++; localStorage.setItem('visits', v);
-document.getElementById('count').innerText = v;
+// Hide all sections except home on load
+function showSection(id){
+    document.querySelectorAll('section').forEach(sec=>sec.style.display='none');
+    document.getElementById(id).style.display='block';
+    // Close menu on mobile
+    document.getElementById('navMenu').classList.remove('show');
+}
+
+// Add click events to menu
+window.onload = function(){
+    document.querySelectorAll('#navMenu a').forEach(link =>{
+        link.addEventListener('click', function(e){
+            e.preventDefault();
+            const target = this.getAttribute('href').replace('#','');
+            showSection(target);
+        });
+    });
+    showSection('home');
+};
 </script>
 </body>
 </html>
