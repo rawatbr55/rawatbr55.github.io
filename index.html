@@ -26,58 +26,79 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 999;
+    z-index: 9999;
 }
 header h2 { margin: 0; font-weight: 600; }
 
-/* NAVIGATION */
+/* ===== NAVIGATION ===== */
 nav {
     display: flex;
     gap: 20px;
+    align-items: center;
 }
 nav a {
     color: #fff;
     text-decoration: none;
     font-weight: 500;
     cursor: pointer;
+    transition: 0.3s;
 }
 nav a:hover { color: #00e1ff; }
 
-/* ===== HAMBURGER MENU ===== */
-.hamburger {
-    display: none;
+/* ===== FULLSCREEN MOBILE NAV ===== */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
+    gap: 30px;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.4s ease;
+    z-index: 9998;
+}
+.mobile-nav-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.mobile-nav-overlay a {
+    font-size: 28px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Animated Hamburger Icon */
+.hamburger {
+    width: 35px;
+    height: 28px;
+    position: relative;
     cursor: pointer;
+    display: none;
 }
 .hamburger span {
-    width: 28px;
-    height: 3px;
+    position: absolute;
+    width: 100%;
+    height: 4px;
     background: #fff;
-    margin: 4px 0;
     border-radius: 5px;
+    transition: 0.4s;
 }
+.hamburger span:nth-child(1){ top:0; }
+.hamburger span:nth-child(2){ top:12px; }
+.hamburger span:nth-child(3){ bottom:0; }
+.hamburger.active span:nth-child(1){ transform: translateY(12px) rotate(45deg); }
+.hamburger.active span:nth-child(2){ opacity:0; }
+.hamburger.active span:nth-child(3){ transform: translateY(-12px) rotate(-45deg); }
 
-/* Mobile Menu */
 @media(max-width: 768px){
-    nav {
-        position: absolute;
-        top: 70px;
-        right: 0;
-        width: 200px;
-        flex-direction: column;
-        background: rgba(0,0,0,0.9);
-        padding: 20px;
-        display: none;
-        border-radius: 8px;
-    }
-
-    nav.show {
-        display: flex;
-    }
-
-    .hamburger {
-        display: flex;
-    }
+    nav { display: none; }
+    .hamburger { display: block; }
 }
 
 /* ===== HOME SECTION ===== */
@@ -139,13 +160,13 @@ nav a:hover { color: #00e1ff; }
     color: black;
     font-weight: 500;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
 }
 .notes-list a:hover {
     background: #00e1ff;
     color: white;
 }
 
-/* FOOTER */
 footer {
     text-align: center;
     padding: 20px;
@@ -171,7 +192,7 @@ section.show {
 <header>
     <h2>Brajesh Rawat</h2>
 
-    <div class="hamburger" onclick="toggleMenu()">
+    <div class="hamburger" onclick="toggleMobileNav(this)">
         <span></span>
         <span></span>
         <span></span>
@@ -186,6 +207,15 @@ section.show {
     </nav>
 </header>
 
+<!-- FULLSCREEN MOBILE MENU -->
+<div id="mobileNav" class="mobile-nav-overlay">
+    <a onclick="mobileSelect('home')">Home</a>
+    <a onclick="mobileSelect('about')">About</a>
+    <a onclick="mobileSelect('projects')">Projects</a>
+    <a onclick="mobileSelect('notes')">Notes</a>
+    <a onclick="mobileSelect('contact')">Contact</a>
+</div>
+
 <!-- ===== HOME SECTION ===== -->
 <section id="home" class="active-section">
     <div class="profile-box">
@@ -195,19 +225,16 @@ section.show {
     </div>
 </section>
 
-<!-- ===== ABOUT ===== -->
 <section id="about">
     <h2>About Me</h2>
     <p>Hi, I am Brajesh Rawat, passionate about technology, coding and learning new skills.</p>
 </section>
 
-<!-- ===== PROJECTS ===== -->
 <section id="projects">
     <h2>Projects</h2>
     <p>Projects will appear here.</p>
 </section>
 
-<!-- ===== NOTES WITH PDFs ===== -->
 <section id="notes">
     <h2>Notes & Study Material</h2>
     <div class="notes-list">
@@ -216,35 +243,9 @@ section.show {
     </div>
 </section>
 
-<!-- ===== CONTACT ===== -->
 <section id="contact">
     <h2>Contact</h2>
     <p>Email: brajeshrawat@example.com</p>
 </section>
 
-<footer>© 2025 Brajesh Rawat</footer>
-
-<script>
-function showSection(id) {
-    document.querySelectorAll('section').forEach(sec => sec.classList.remove('active-section'));
-    document.getElementById(id).classList.add('active-section');
-}
-
-function toggleMenu(){
-    document.getElementById('navMenu').classList.toggle('show');
-}
-
-// Scroll reveal animations
-const sections = document.querySelectorAll('section');
-const reveal = () => {
-  sections.forEach(sec => {
-    const top = sec.getBoundingClientRect().top;
-    if(top < window.innerHeight - 100){ sec.classList.add('show'); }
-  });
-};
-window.addEventListener('scroll', reveal);
-reveal();
-</script>
-
-</body>
-</html>
+<footer>©
