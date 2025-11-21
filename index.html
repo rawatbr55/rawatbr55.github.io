@@ -1,352 +1,120 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Brajesh Rawat — Portfolio & Uploads</title>
-  <style>
-    /* ---------- Reset & base ---------- */
-    :root{
-      --accent1:#00c6ff;
-      --accent2:#0072ff;
-      --card-bg:#ffffff;
-      --bg:#f4f6f8;
-      --text:#111827;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:var(--bg);color:var(--text)}
-    a{color:inherit}
-    button{cursor:pointer}
-
-    /* ---------- Header / Nav ---------- */
-    header{
-      position:fixed;top:0;left:0;right:0;height:64px;
-      background:#000;color:#fff;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;z-index:40;
-      box-shadow:0 4px 18px rgba(2,6,23,0.15);
-    }
-    header h2{margin:0;font-size:18px}
-    nav{display:flex;gap:14px;align-items:center}
-    nav a{color:#fff;padding:8px 10px;border-radius:6px;text-decoration:none}
-    nav a:hover{background:rgba(255,255,255,0.06)}
-    .hamburger{display:none;flex-direction:column;gap:4px}
-    .hamburger span{display:block;height:3px;width:24px;background:#fff;border-radius:2px}
-
-    /* ---------- Hero ---------- */
-    .hero{
-      padding-top:110px;padding-bottom:60px;
-      text-align:center;
-      position:relative;
-      overflow:hidden;
-      background:linear-gradient(135deg,var(--accent1),var(--accent2));
-      color:#fff;
-    }
-    .hero-inner{max-width:1100px;margin:0 auto;padding:48px 20px;position:relative;z-index:2}
-    .hero-title{font-size:40px;margin:0 0 8px;font-weight:700;animation:fadeSlide 900ms ease forwards;opacity:0}
-    .hero-sub{opacity:0.92;margin:0 0 22px}
-    @keyframes fadeSlide{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-
-    /* photo frame */
-    .photo-frame{width:240px;height:240px;border-radius:50%;padding:6px;margin:18px auto 10px;background:linear-gradient(135deg,#ff9a9e,#fad0c4,#00c6ff,#0072ff);box-shadow:0 10px 40px rgba(0,0,0,0.18);display:flex;align-items:center;justify-content:center;animation:glow 3s ease-in-out infinite}
-    @keyframes glow{0%{box-shadow:0 8px 30px rgba(0,150,255,0.18)}50%{box-shadow:0 18px 55px rgba(0,150,255,0.25)}100%{box-shadow:0 8px 30px rgba(0,150,255,0.18)}}
-    .photo-frame img{width:226px;height:226px;border-radius:50%;object-fit:cover;border:4px solid rgba(255,255,255,0.06)}
-
-    /* feature grid */
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
-    .card{background:rgba(255,255,255,0.08);padding:18px;border-radius:12px;backdrop-filter:blur(4px);min-height:110px}
-
-    /* ---------- Content Sections ---------- */
-    main{max-width:1100px;margin:30px auto;padding:0 18px}
-    section{display:none;background:var(--card-bg);border-radius:12px;padding:22px;margin-bottom:18px;box-shadow:0 6px 24px rgba(16,24,40,0.06)}
-    section.active{display:block}
-    h3{margin-top:0}
-
-    /* ---------- Auth & Upload UI ---------- */
-    .auth-box{max-width:720px;margin:10px auto;display:grid;grid-template-columns:1fr;gap:10px}
-    .input{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef6}
-    .btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;border:0;padding:10px 12px;border-radius:8px}
-    .muted{color:#6b7280;font-size:14px}
-
-    /* file list */
-    .file-row{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #f1f5f9;padding:8px 0}
-    .file-row a{word-break:break-word}
-
-    /* small screens */
-    @media(max-width:880px){
-      .hero-title{font-size:28px}
-    }
-    @media(max-width:720px){
-      nav{display:none;position:absolute;right:0;top:64px;background:#000;flex-direction:column;padding:10px;border-radius:6px;margin-right:12px}
-      nav.show{display:flex}
-      .hamburger{display:flex}
-    }
-
-    /* ---------- Footer ---------- */
-    footer{max-width:1100px;margin:30px auto 80px;padding:12px 18px;color:#374151;font-size:14px}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brajesh Rawat - Portfolio</title>
+<style>
+body { margin:0; font-family: Arial; background:#f4f4f4; }
+header { background:#000; color:#fff; padding:15px; display:flex; justify-content:space-between; align-items:center; }
+nav a { color:white; margin:0 10px; text-decoration:none; }
+.container { width:90%; max-width:900px; margin:auto; padding:20px; }
+#uploadSection, #dashboard { display:none; }
+.file-box { background:white; padding:15px; border-radius:10px; margin-top:15px; }
+</style>
 </head>
 <body>
-  <header>
-    <h2>BRAJESH RAWAT</h2>
-    <nav id="topNav">
-      <a href="#home" data-target="home">Home</a>
-      <a href="#about" data-target="about">About</a>
-      <a href="#projects" data-target="projects">Projects</a>
-      <a href="#notes" data-target="notes">Notes</a>
-      <a href="#upload" data-target="upload">Upload</a>
-      <a href="#contact" data-target="contact">Contact</a>
+<header>
+    <h2>Brajesh Rawat</h2>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#login">Login</a>
+        <a href="#upload">Upload</a>
+        <a href="#dashboard">Dashboard</a>
     </nav>
+</header>
 
-    <div style="display:flex;gap:10px;align-items:center">
-      <div class="hamburger" id="hamb" onclick="document.getElementById('topNav').classList.toggle('show')">
-        <span></span><span></span><span></span>
-      </div>
-      <button id="authBtn" class="btn" style="padding:8px 10px">Login</button>
-    </div>
-  </header>
+<!-- HOME SECTION -->
+<section id="home" class="container">
+    <h1>Welcome to My Portfolio</h1>
+    <p>This is upgraded with Firebase Login + File Upload System.</p>
+</section>
 
-  <!-- HERO -->
-  <section class="hero" id="homeSection">
-    <div class="hero-inner">
-      <div class="photo-frame"><img id="heroPhoto" src="your_photo.jpg" alt="Your photo (replace your_photo.jpg)" /></div>
-      <h1 class="hero-title">Welcome to My Learning Hub</h1>
-      <p class="hero-sub">Explore projects, download notes, and upload your study materials securely.</p>
+<!-- LOGIN SECTION -->
+<section id="login" class="container">
+<h2>Login</h2>
+<div class="file-box">
+    <input type="email" id="email" placeholder="Enter email" /><br><br>
+    <input type="password" id="password" placeholder="Enter password" /><br><br>
+    <button onclick="login()">Login</button>
+    <button onclick="signup()">Sign Up</button>
+    <p id="loginMsg"></p>
+</div>
+</section>
 
-      <div class="grid" style="margin-top:28px">
-        <div class="card"><strong>📘 Study Materials</strong><div class="muted" style="margin-top:8px">Access class notes & PDF syllabus.</div></div>
-        <div class="card"><strong>🖥️ Tech Updates</strong><div class="muted" style="margin-top:8px">Short tech highlights & resources.</div></div>
-        <div class="card"><strong>📂 Upload Area</strong><div class="muted" style="margin-top:8px">Login to upload PDFs & images.</div></div>
-        <div class="card"><strong>📊 Dashboard</strong><div class="muted" style="margin-top:8px">Manage files you uploaded.</div></div>
-      </div>
-    </div>
-  </section>
+<!-- FILE UPLOAD SECTION -->
+<section id="uploadSection" class="container">
+<h2>Upload Files</h2>
+<div class="file-box">
+    <input type="file" id="fileUpload"><br><br>
+    <button onclick="uploadFile()">Upload</button>
+    <p id="uploadMsg"></p>
+</div>
+</section>
 
-  <main>
-    <!-- ABOUT -->
-    <section id="about" class="active">
-      <h3>About Me</h3>
-      <p>Hi, I'm Brajesh. This site hosts notes, projects and Python codes. Replace this paragraph with your biography and achievements.</p>
-    </section>
+<!-- DASHBOARD -->
+<section id="dashboard" class="container">
+<h2>Your Uploaded Files</h2>
+<div id="filesList"></div>
+</section>
 
-    <!-- PROJECTS -->
-    <section id="projects">
-      <h3>Projects</h3>
-      <p>Project showcase — add cards, GitHub links and demo links here.</p>
-    </section>
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js"></script>
 
-    <!-- NOTES -->
-    <section id="notes">
-      <h3>Notes & PDFs</h3>
-      <ul id="notesList">
-        <li><a href="Computer_Science_Syllabius.pdf" target="_blank">Computer_Science_Syllabius.pdf</a></li>
-        <li><a href="your_uploaded_file.pdf" target="_blank">your_uploaded_file.pdf</a></li>
-      </ul>
-    </section>
+<script>
+// YOUR FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyA19S8vGKObxrORhez_uFYLoKk2I3fQM1s",
+  authDomain: "brajesh-b9592.firebaseapp.com",
+  projectId: "brajesh-b9592",
+  storageBucket: "brajesh-b9592.firebasestorage.app",
+  messagingSenderId: "117767040406",
+  appId: "1:117767040406:web:d8567f457faea16985c1b7",
+  measurementId: "G-XMXF8RBKP7"
+};
 
-    <!-- UPLOAD (auth protected) -->
-    <section id="upload">
-      <h3>Login & Upload</h3>
+// INIT
+const app = firebase.initializeApp(firebaseConfig);
+const auth = firebase.getAuth();
+const storage = firebase.getStorage();
 
-      <div id="authUI" class="auth-box">
-        <div>
-          <input id="email" class="input" placeholder="Email" />
-        </div>
-        <div>
-          <input id="password" class="input" type="password" placeholder="Password" />
-        </div>
-        <div style="display:flex;gap:8px">
-          <button id="btnLogin" class="btn" style="flex:1">Login</button>
-          <button id="btnSignup" class="btn" style="flex:1;background:#10b981">Sign Up</button>
-          <button id="btnLogout" class="btn" style="flex:1;display:none;background:#ef4444">Logout</button>
-        </div>
-        <div id="authMsg" class="muted"></div>
-      </div>
+// LOGIN
+function login(){
+  firebase.signInWithEmailAndPassword(auth,
+    document.getElementById("email").value,
+    document.getElementById("password").value
+  )
+  .then(()=>{
+    document.getElementById("loginMsg").innerHTML = "Logged in!";
+    document.getElementById("uploadSection").style.display = "block";
+    document.getElementById("dashboard").style.display = "block";
+  })
+  .catch(e=>document.getElementById("loginMsg").innerHTML=e.message);
+}
 
-      <div id="uploader" style="display:none;margin-top:12px">
-        <input id="fileInput" type="file" accept=".pdf,image/*" />
-        <button id="btnUpload" class="btn" style="margin-left:8px">Upload</button>
+// SIGNUP
+function signup(){
+  firebase.createUserWithEmailAndPassword(auth,
+    document.getElementById("email").value,
+    document.getElementById("password").value
+  )
+  .then(()=>document.getElementById("loginMsg").innerHTML="Account Created!")
+  .catch(e=>document.getElementById("loginMsg").innerHTML=e.message);
+}
 
-        <h4 style="margin-top:16px">Your Uploaded Files</h4>
-        <div id="fileList" style="max-height:300px;overflow:auto;border-radius:8px;padding:8px;border:1px solid #eef2f7"></div>
-      </div>
-    </section>
+// UPLOAD FILE
+function uploadFile(){
+    const file = document.getElementById("fileUpload").files[0];
+    if(!file){ alert("Select a file!"); return; }
 
-    <!-- CONTACT -->
-    <section id="contact">
-      <h3>Contact</h3>
-      <p>Email: your-email@example.com • Phone: 0000000000</p>
-    </section>
-  </main>
-
-  <footer>© 2025 Brajesh Rawat — Built with ❤️</footer>
-
-  <!-- Firebase SDKs (compat) -->
-  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.24.0/firebase-storage-compat.js"></script>
-
-  <script>
-  /******************** IMPORTANT ********************
-   * 1) Create a Firebase web app and paste your config
-   *    into the firebaseConfig object below.
-   * 2) Enable Authentication -> Email/Password
-   * 3) Set Storage rules (provided in firebase-storage-rules.txt)
-   ***************************************************/
-
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "SENDER_ID",
-    appId: "APP_ID"
-  };
-
-  // initialize firebase
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const storage = firebase.storage();
-
-  /* ---------- UI refs ---------- */
-  const navLinks = document.querySelectorAll('nav a');
-  const sections = document.querySelectorAll('main section, .hero');
-  const authBtn = document.getElementById('authBtn');
-
-  // section toggle via nav (only one visible)
-  function showOnly(id){
-    document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
-    if(id === 'home'){
-      // show hero + keep first 'about' hidden logic: home remains hero (not main)
-      document.getElementById('about').classList.add('active');
-      // scroll hero into view
-      document.getElementById('homeSection').scrollIntoView({behavior:'smooth'});
-    } else {
-      const sec = document.getElementById(id);
-      if(sec) sec.classList.add('active');
-      sec && sec.scrollIntoView({behavior:'smooth'});
-    }
-    // close mobile nav
-    document.getElementById('topNav').classList.remove('show');
-  }
-  navLinks.forEach(a=>{
-    a.addEventListener('click',ev=>{
-      ev.preventDefault();
-      const tgt = a.getAttribute('data-target') || a.getAttribute('href').replace('#','');
-      showOnly(tgt);
-    });
-  });
-
-  /* ---------- Auth & Upload logic ---------- */
-
-  // UI elements
-  const emailEl = document.getElementById('email');
-  const pwdEl = document.getElementById('password');
-  const btnLogin = document.getElementById('btnLogin');
-  const btnSignup = document.getElementById('btnSignup');
-  const btnLogout = document.getElementById('btnLogout');
-  const authMsg = document.getElementById('authMsg');
-
-  const uploader = document.getElementById('uploader');
-  const fileInput = document.getElementById('fileInput');
-  const btnUpload = document.getElementById('btnUpload');
-  const fileList = document.getElementById('fileList');
-
-  function showMessage(m, color='#374151'){
-    authMsg.style.color = color; authMsg.textContent = m;
-    setTimeout(()=>{ if(authMsg.textContent === m) authMsg.textContent = ''; }, 5000);
-  }
-
-  // signup
-  btnSignup.addEventListener('click', async () => {
-    const email = emailEl.value.trim();
-    const pass = pwdEl.value;
-    if(!email || !pass) return showMessage('Enter email and password', '#b91c1c');
-    try {
-      await auth.createUserWithEmailAndPassword(email, pass);
-    } catch(err){ showMessage(err.message,'#b91c1c') }
-  });
-
-  // login
-  btnLogin.addEventListener('click', async () => {
-    const email = emailEl.value.trim();
-    const pass = pwdEl.value;
-    if(!email || !pass) return showMessage('Enter email and password', '#b91c1c');
-    try{
-      await auth.signInWithEmailAndPassword(email, pass);
-    } catch(err){ showMessage(err.message,'#b91c1c') }
-  });
-
-  // logout
-  btnLogout.addEventListener('click', async () => { await auth.signOut(); });
-
-  // upload file
-  btnUpload.addEventListener('click', async () => {
-    const user = auth.currentUser;
-    if(!user) return showMessage('Please login first','#b91c1c');
-    const f = fileInput.files[0];
-    if(!f) return showMessage('Pick a file to upload','#b91c1c');
-
-    const uid = user.uid;
-    const stamp = Date.now();
-    const safeName = `${stamp}_${f.name}`;
-    const ref = storage.ref(`uploads/${uid}/${safeName}`);
-    try{
-      const task = await ref.put(f);
-      showMessage('Upload complete', '#059669');
-      fileInput.value = '';
-      loadFiles(uid);
-    }catch(err){ showMessage('Upload failed: '+err.message,'#b91c1c') }
-  });
-
-  // load user's files
-  async function loadFiles(uid){
-    fileList.innerHTML = 'Loading...';
-    try{
-      const listRef = storage.ref(`uploads/${uid}`);
-      const res = await listRef.listAll();
-      if(!res.items || res.items.length === 0){ fileList.innerHTML = '<div class="muted">No files uploaded yet</div>'; return; }
-      fileList.innerHTML = '';
-      for(const it of res.items){
-        const url = await it.getDownloadURL();
-        const name = it.name.split('_').slice(1).join('_') || it.name;
-        const row = document.createElement('div');
-        row.className = 'file-row';
-        const a = document.createElement('a');
-        a.href = url; a.target = '_blank'; a.textContent = name;
-        const del = document.createElement('button');
-        del.textContent = 'Delete'; del.style.marginLeft='10px';
-        del.onclick = async () => {
-          if(!confirm('Delete this file?')) return;
-          try{ await it.delete(); loadFiles(uid); } catch(e){ alert('Delete failed: '+e.message) }
-        };
-        row.appendChild(a); row.appendChild(del);
-        fileList.appendChild(row);
-      }
-    }catch(e){ fileList.innerHTML = '<div class="muted">Failed to load files: '+e.message+'</div>' }
-  }
-
-  // auth state change
-  auth.onAuthStateChanged(u=>{
-    if(u){
-      // logged in
-      btnLogout.style.display = 'inline-block'; btnLogin.style.display='none'; btnSignup.style.display='none';
-      document.getElementById('authBtn').textContent = 'Account';
-      uploader.style.display = 'block';
-      loadFiles(u.uid);
-    } else {
-      btnLogout.style.display='none'; btnLogin.style.display='inline-block'; btnSignup.style.display='inline-block';
-      document.getElementById('authBtn').textContent = 'Login';
-      uploader.style.display = 'none'; fileList.innerHTML = '';
-    }
-  });
-
-  // header auth button quick jump
-  document.getElementById('authBtn').addEventListener('click', ()=>{
-    showOnly('upload');
-  });
-
-  // default view: show about section
-  document.getElementById('about').classList.add('active');
-
-  </script>
+    const storageRef = firebase.ref(storage, "uploads/" + file.name);
+    firebase.uploadBytes(storageRef, file)
+      .then(()=>{
+        document.getElementById("uploadMsg").innerHTML = "Upload Successful!";
+      });
+}
+</script>
 </body>
 </html>
