@@ -1,134 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Brajesh Rawat - Personal Website</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            scroll-behavior: smooth;
-            background: #f4f4f4;
-        }
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: #000;
-            color: #fff;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
-        header a {
-            color: #fff;
-            margin: 0 15px;
-            text-decoration: none;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        header a:hover {
-            color: #00e1ff;
-        }
-        section {
-            padding: 80px 20px;
-            text-align: center;
-            animation: fadeIn 1.2s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .home {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #00c6ff, #0072ff);
-            color: white;
-        }
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: #fff;
-            margin-bottom: 15px;
-            object-fit: cover;
-        }
-        .container {
-            max-width: 900px;
-            margin: auto;
-        }
-        footer {
-            background: #000;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brajesh Rawat — Personal Website</title>
+  <meta name="description" content="Personal website of Brajesh Rawat — notes, projects and Python codes for students.">
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#7c3aed;
+      --muted:#9aa4b2;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e6eef6;background:linear-gradient(180deg,#071020 0%, #0e1624 60%);-webkit-font-smoothing:antialiased}
+
+    /* Header */
+    .site-header{position:fixed;inset:0 0 auto 0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:linear-gradient(180deg, rgba(7,10,20,0.6), rgba(7,10,20,0.15));backdrop-filter:blur(6px);z-index:40}
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand img{width:46px;height:46px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,0.06)}
+    .brand .name{font-weight:700;font-size:18px}
+    .nav{display:flex;gap:18px;align-items:center}
+    .nav a{color:var(--muted);text-decoration:none;font-weight:600;padding:10px;border-radius:10px;transition:all .18s}
+    .nav a:hover{color:#fff;background:var(--glass);transform:translateY(-2px)}
+
+    /* Mobile menu */
+    .hamburger{display:none;gap:6px;flex-direction:column;cursor:pointer;padding:8px}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--muted);border-radius:2px;transition:all .2s}
+
+    /* Hero */
+    .hero{min-height:78vh;display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center;padding:112px 20px 40px;max-width:var(--maxw);margin:0 auto}
+    .hero .intro{max-width:700px}
+    h1{margin:0;font-size:36px;line-height:1.02;color:#fff}
+    p.lead{color:var(--muted);margin-top:12px;font-size:16px}
+    .cta{margin-top:18px;display:flex;gap:12px}
+    .btn{background:linear-gradient(90deg,var(--accent),#4f46e5);color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700;box-shadow:0 6px 18px rgba(124,58,237,0.15);transition:transform .14s}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .profile-card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:20px;border-radius:12px;box-shadow:0 6px 28px rgba(2,6,23,0.6);display:flex;flex-direction:column;align-items:center}
+    .profile-card img{width:180px;height:180px;border-radius:20px;object-fit:cover;border:4px solid rgba(255,255,255,0.04)}
+    .profile-card h3{margin:10px 0 6px}
+    .profile-card p{margin:0;color:var(--muted);font-size:14px}
+
+    /* Sections */
+    main{max-width:var(--maxw);margin:30px auto;padding:0 20px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);color:var(--muted);transition:transform .22s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 22px 46px rgba(2,6,23,0.6)}
+
+    /* Footer */
+    footer{max-width:var(--maxw);margin:40px auto 80px;padding:20px;text-align:center;color:var(--muted)}
+
+    /* Animations */
+    .fade-up{opacity:0;transform:translateY(12px);animation:fadeUp .7s forwards}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;gap:18px;padding-top:100px}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .nav{display:none}
+      .hamburger{display:flex}
+    }
+    @media (max-width:640px){
+      .grid{grid-template-columns:1fr}
+      h1{font-size:28px}
+      .brand .name{font-size:16px}
+    }
+
+    /* Mobile dropdown panel */
+    .mobile-panel{position:fixed;top:72px;right:20px;background:linear-gradient(180deg, rgba(11,17,26,0.98), rgba(6,8,13,0.95));padding:12px;border-radius:10px;box-shadow:0 12px 36px rgba(2,6,23,0.6);display:none;flex-direction:column;gap:8px;z-index:60}
+    .mobile-panel a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:8px}
+    .mobile-panel a:hover{color:#fff;background:var(--glass)}
+
+    /* utility */
+    .muted{color:var(--muted)}
+    .small{font-size:13px}
+  </style>
 </head>
 <body>
-    <header>
-        <h2>Brajesh Rawat</h2>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#about">About Me</a>
-            <a href="#projects">Projects</a>
-            <a href="#notes">Notes for Students</a>
-            <a href="#python">Python Codes</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
+  <header class="site-header">
+    <div class="brand" aria-label="brand">
+      <img src="/mnt/data/IMG20241229111916.jpg" alt="Brajesh Rawat">
+      <div>
+        <div class="name">Brajesh Rawat</div>
+        <div class="small muted">Teacher • Python • Notes</div>
+      </div>
+    </div>
 
-    <section id="home" class="home">
-        <img src="photo.jpg" alt="Your Photo" class="profile-img">
-        <h1>Welcome to My Personal Website</h1>
-        <p>I'm <b>Brajesh Rawat</b> — explore my work, notes & Python codes.</p>
+    <nav class="nav" aria-label="main navigation">
+      <a href="#home">Home</a>
+      <a href="#about">About Me</a>
+      <a href="#projects">Projects</a>
+      <a href="#notes">Notes for Students</a>
+      <a href="#python">Python Codes</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="btn secondary" onclick="document.getElementById('notes').scrollIntoView({behavior:'smooth'})">Notes</button>
+      <div class="hamburger" id="hamburger" aria-label="menu" aria-expanded="false" role="button">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile dropdown -->
+  <div class="mobile-panel" id="mobilePanel" role="menu">
+    <a href="#home">Home</a>
+    <a href="#about">About Me</a>
+    <a href="#projects">Projects</a>
+    <a href="#notes">Notes for Students</a>
+    <a href="#python">Python Codes</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <section id="home" class="hero" tabindex="-1">
+    <div class="intro fade-up" style="animation-delay:.1s">
+      <h1>Welcome — I'm <span style="color:var(--accent)">Brajesh Rawat</span></h1>
+      <p class="lead">I create notes, Python examples and simple projects for students. Explore resources, download notes, and run example codes.</p>
+      <div class="cta">
+        <a class="btn" href="#notes">View Notes</a>
+        <a class="btn secondary" href="#projects">My Projects</a>
+      </div>
+
+      <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap">
+        <div class="card small" style="min-width:160px">Students: <b>Free Notes</b></div>
+        <div class="card small" style="min-width:160px">Python: <b>Examples</b></div>
+        <div class="card small" style="min-width:160px">Contact: <b>Email &amp; GitHub</b></div>
+      </div>
+    </div>
+
+    <aside class="profile-card fade-up" style="animation-delay:.2s">
+      <img src="/mnt/data/IMG20241229111916.jpg" alt="Brajesh Rawat">
+      <h3>Brajesh Rawat</h3>
+      <p class="muted">Teacher • Python • Student Notes</p>
+      <p style="margin-top:12px;font-size:14px;color:var(--muted)">Share class notes and sample code with your students. Hosted via GitHub Pages.</p>
+    </aside>
+  </section>
+
+  <main>
+    <section id="about" class="card fade-up" style="margin-bottom:18px;">
+      <h2>About Me</h2>
+      <p class="muted">I am a dedicated teacher who enjoys making learning easy and practical. I prepare clear notes, worked examples in Python, and small projects to help students practice.</p>
     </section>
 
-    <section id="about">
-        <div class="container">
-            <h2>About Me</h2>
-            <p>Write about yourself here. I can update it for you if you tell me what to write.</p>
+    <section id="projects" class="card fade-up" style="margin-bottom:18px;">
+      <h2>Projects</h2>
+      <div class="grid" style="margin-top:12px">
+        <div class="card">
+          <h3>Mini Calculator (Python)</h3>
+          <p class="muted">A small project to practise basic operations and functions.</p>
         </div>
-    </section>
-
-    <section id="projects">
-        <div class="container">
-            <h2>Projects</h2>
-            <p>Add your project details here. I can fill this section too.</p>
+        <div class="card">
+          <h3>Student Management</h3>
+          <p class="muted">Store and manage simple student data using file I/O.</p>
         </div>
-    </section>
-
-    <section id="notes">
-        <div class="container">
-            <h2>Notes for Students</h2>
-            <p>Upload or list your notes here.</p>
+        <div class="card">
+          <h3>Web Mini Projects</h3>
+          <p class="muted">Small HTML/CSS projects made for classroom demonstrations.</p>
         </div>
+      </div>
     </section>
 
-    <section id="python">
-        <div class="container">
-            <h2>Python Codes</h2>
-            <p>You can upload your Python files or show sample codes here.</p>
-        </div>
+    <section id="notes" class="card fade-up" style="margin-bottom:18px;">
+      <h2>Notes for Students</h2>
+      <p class="muted">Upload your notes in the repository under a <code>/notes</code> folder. Then add links here so students can download.</p>
+      <ul style="text-align:left;margin-top:12px;color:var(--muted)">
+        <li><a href="notes/chapter1.pdf" style="color:var(--accent);text-decoration:none">Chapter 1 — Introduction (PDF)</a></li>
+        <li><a href="notes/chapter2.pdf" style="color:var(--accent);text-decoration:none">Chapter 2 — Basics (PDF)</a></li>
+      </ul>
     </section>
 
-    <section id="contact">
-        <div class="container">
-            <h2>Contact</h2>
-            <p>Email: your-email@example.com</p>
-            <p>Phone: 0000000000</p>
-        </div>
+    <section id="python" class="card fade-up" style="margin-bottom:18px;">
+      <h2>Python Codes</h2>
+      <p class="muted">Place Python files inside a <code>/python</code> folder in the repository. Example links:</p>
+      <ul style="text-align:left;margin-top:12px;color:var(--muted)">
+        <li><a href="python/calculator.py" style="color:var(--accent);text-decoration:none">calculator.py</a></li>
+        <li><a href="python/student_record.py" style="color:var(--accent);text-decoration:none">student_record.py</a></li>
+      </ul>
     </section>
 
-    <footer>
-        <p>© 2025 Brajesh Rawat | All Rights Reserved</p>
-    </footer>
+    <section id="contact" class="card fade-up">
+      <h2>Contact</h2>
+      <p class="muted">Email: <a href="mailto:your-email@example.com" style="color:var(--accent);text-decoration:none">your-email@example.com</a></p>
+      <p class="muted">GitHub: <a href="https://github.com/rawatbr55" style="color:var(--accent);text-decoration:none">github.com/rawatbr55</a></p>
+    </section>
+  </main>
 
+  <footer>
+    © 2025 Brajesh Rawat · Built with ❤ · Hosted on GitHub Pages
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const mobilePanel = document.getElementById('mobilePanel');
+    let open = false;
+    hamburger.addEventListener('click', ()=>{
+      open = !open;
+      mobilePanel.style.display = open ? 'flex' : 'none';
+      document.getElementById('hamburger').setAttribute('aria-expanded', open);
+      // animate bars
+      const spans = hamburger.querySelectorAll('span');
+      if(open){
+        spans[0].style.transform = 'translateY(7px) rotate(45deg)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+      } else {
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '';
+        spans[2].style.transform = '';
+      }
+    });
+
+    // Close mobile menu on link click
+    Array.from(document.querySelectorAll('.mobile-panel a')).forEach(a=>a.addEventListener('click', ()=>{
+      mobilePanel.style.display = 'none'; open=false; hamburger.setAttribute('aria-expanded', 'false');
+      const spans = hamburger.querySelectorAll('span'); spans[0].style.transform=''; spans[1].style.opacity=''; spans[2].style.transform='';
+    }));
+
+    // Simple intersection observer for fade-up
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+    },{threshold:0.12});
+    document.querySelectorAll('.fade-up').forEach(el=>{ io.observe(el); el.classList.add('visible'); });
+
+  </script>
 </body>
 </html>
